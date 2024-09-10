@@ -21,8 +21,5 @@ const headerContainer = css`
   justify-content: space-between;
   background-color: tomato;
 `;
-const headerLeft = css``;
-
-const headerRight = css``;
 
 export default Header;

@@ -55,6 +55,8 @@ const style = (theme: Theme) => css`
     color: ${theme.text};
     background-color: ${theme.background};
     font-family: "Pretendard", sans-serif;
+    max-width: 1200px;
+    margin: ;
   }
 `;
 
