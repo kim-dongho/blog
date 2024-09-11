@@ -4,6 +4,6 @@ export const breakpoints = {
 };
 
 export const mediaQuery = {
-  mobile: `@media (min-width: ${breakpoints.mobile})`,
-  tablet: `@media (min-width: ${breakpoints.tablet})`,
+  mobile: `@media (max-width: ${breakpoints.mobile})`,
+  tablet: `@media (max-width: ${breakpoints.tablet})`,
 };

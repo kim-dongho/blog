@@ -54,9 +54,16 @@ const style = (theme: Theme) => css`
   body {
     color: ${theme.text};
     background-color: ${theme.background};
+    border-color: ${theme.borderColor};
     font-family: "Pretendard", sans-serif;
     max-width: 1200px;
-    margin: ;
+    margin: 0 auto;
+    overflow-y: scroll;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
   }
 `;
 

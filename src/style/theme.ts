@@ -8,6 +8,7 @@ export const lightTheme: Theme = {
   buttonBorder: "#000",
   buttonBg: "rgba(0, 0, 0, 0)",
   buttonBgHover: "rgba(0, 0, 0, 1)",
+  borderColor: "#000",
 };
 
 export const darkTheme: Theme = {
@@ -18,4 +19,5 @@ export const darkTheme: Theme = {
   buttonBorder: "#fff",
   buttonBg: "rgba(255, 255, 255, 0)",
   buttonBgHover: "rgba(255, 255, 255, 1)",
+  borderColor: "#fff",
 };
