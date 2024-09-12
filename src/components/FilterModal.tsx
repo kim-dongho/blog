@@ -1,12 +1,12 @@
 import { css } from "@emotion/react";
 import TagList from "./TagList";
 import { useAllTag } from "../hooks/useAllTag";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { filterList, themeState } from "../atom";
 
 const FilterModal = () => {
   const tags = useAllTag();
-  const [filter, setFilter] = useRecoilState(filterList);
+  const filter = useRecoilValue(filterList);
   const isDark = useRecoilValue(themeState);
 
   return (

@@ -6,7 +6,6 @@ import { themeState } from "./atom";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Home from "./routes/Home";
 import Blog from "./routes/Blog";
 import Tags from "./routes/Tags";
 import BlogPost from "./routes/BlogPost";
@@ -21,7 +20,7 @@ function App() {
         <BrowserRouter>
           <Header />
           <Routes>
-            <Route path="/" element={<Home />} />
+            {/* <Route path="/" element={<Home />} /> */}
             <Route path="/tags" element={<Tags />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />

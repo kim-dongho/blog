@@ -5,7 +5,7 @@ import "github-markdown-css/github-markdown.css";
 import { css } from "@emotion/react";
 import ContentLayout from "../layouts/ContentLayout";
 import Title from "../components/Title";
-import Comment from "../components/comment";
+import Comment from "../components/Comment";
 
 const BlogPost = () => {
   const { id } = useParams();

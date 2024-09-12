@@ -26,8 +26,8 @@ const navItem = [
 ];
 
 type IsOpenProps = {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  isOpen?: boolean;
+  setIsOpen?: Dispatch<SetStateAction<boolean>>;
 };
 
 const NavList = (props: IsOpenProps) => {
@@ -43,7 +43,7 @@ const NavList = (props: IsOpenProps) => {
             key={item.id}
             onClick={() => {
               navigate(item.link);
-              if (isOpen) {
+              if (isOpen && setIsOpen) {
                 setIsOpen(() => !isOpen);
               }
             }}
