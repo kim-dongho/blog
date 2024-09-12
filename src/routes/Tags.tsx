@@ -8,7 +8,7 @@ const Tags = () => {
   return (
     <ContentLayout>
       <Title text="ALL TAGS" />
-      <TagList tags={tags} />
+      <TagList tags={tags} filterEvent={true} />
     </ContentLayout>
   );
 };

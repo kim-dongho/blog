@@ -20,4 +20,5 @@ const mdxContainer = css`
   background: inherit;
   color: inherit;
 `;
+
 export default Home;

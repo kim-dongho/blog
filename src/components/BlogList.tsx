@@ -4,7 +4,7 @@ import { ListProps } from "../types/ListProps";
 
 const BlogList = () => {
   const blogList = useMarkDownList();
-  
+
   return (
     <div>
       {blogList?.map((item: ListProps) => {

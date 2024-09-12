@@ -1,21 +1,39 @@
 import styled from "@emotion/styled";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { filterList } from "../atom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface TagProps {
   name: string;
+  filterEvent: boolean;
 }
 
-const Tag = ({ name }: TagProps) => {
-  const [filter, setFilter] = useRecoilState(filterList);
+interface StyledTagProps {
+  filterEvent: boolean;
+}
+
+const Tag = ({ name, filterEvent }: TagProps) => {
+  const setFilter = useSetRecoilState(filterList);
+  const location = useLocation();
+  const navigation = useNavigate();
+
+  const handleFilter = (name: string) => {
+    if (filterEvent) {
+      setFilter((prev) => [...prev, name]);
+      if (location.pathname === "/tags") {
+        navigation("/blog");
+      }
+    }
+  };
+
   return (
-    <StyledTag onClick={() => setFilter((prev) => [...prev, name])}>
+    <StyledTag filterEvent={filterEvent} onClick={() => handleFilter(name)}>
       {name}
     </StyledTag>
   );
 };
 
-const StyledTag = styled.div`
+const StyledTag = styled.div<StyledTagProps>`
   padding: 8px 12px;
   margin: 4px;
   border-radius: 16px;
@@ -23,6 +41,7 @@ const StyledTag = styled.div`
   display: inline-block;
   color: black;
   background-color: #ebebeb;
+  cursor: ${(props) => (props.filterEvent ? "pointer" : "default")};
 `;
 
 export default Tag;

@@ -3,18 +3,19 @@ import { ListProps } from "../types/ListProps";
 import { mediaQuery } from "../style/media";
 import { textEllipsis } from "../style/common";
 import TagList from "./TagList";
+import { useNavigate } from "react-router-dom";
 
 const BlogListItem = (props: ListProps) => {
   const { title, thumbnail, summary, tags, date } = props;
-
+  const navigation = useNavigate();
   return (
     <div css={itemContainer}>
       <div css={thumbnailWrapper}>
         <img src={thumbnail} alt="image" css={thumbnailImage} />
       </div>
-      <div css={contentWrapper}>
+      <div css={contentWrapper} onClick={() => navigation(`/blog/${title}`)}>
         <h2>{title}</h2>
-        <TagList tags={tags} />
+        <TagList tags={tags} filterEvent={false} />
         <h5>{summary}</h5>
         <p className="date">{date}</p>
       </div>
@@ -55,6 +56,9 @@ const contentWrapper = css`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  &:hover {
+    cursor: pointer;
+  }
   h2 {
     font-size: 26px;
     line-height: 1.3;

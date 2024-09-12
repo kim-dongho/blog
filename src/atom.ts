@@ -13,7 +13,7 @@ export const blogListState = atom<ListProps[] | null>({
   default: [],
 });
 
-export const filterList = atom<string[] | null>({
+export const filterList = atom<string[]>({
   key: "filterList",
   default: [],
 });
