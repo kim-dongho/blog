@@ -12,4 +12,7 @@ export default defineConfig({
       remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
     }),
   ],
+  server: {
+    port: 3000,
+  },
 });

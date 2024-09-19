@@ -22,7 +22,7 @@ function App() {
           <Routes>
             {/* <Route path="/" element={<Home />} /> */}
             <Route path="/tags" element={<Tags />} />
-            <Route path="/blog" element={<Blog />} />
+            <Route path="/" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
           </Routes>
           <Footer />

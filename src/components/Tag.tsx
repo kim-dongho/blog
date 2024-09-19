@@ -21,7 +21,7 @@ const Tag = ({ name, filterEvent }: TagProps) => {
     if (filterEvent) {
       setFilter((prev) => [...prev, name]);
       if (location.pathname === "/tags") {
-        navigation("/blog");
+        navigation("/");
       }
     }
   };

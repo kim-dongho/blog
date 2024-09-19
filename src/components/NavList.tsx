@@ -15,7 +15,7 @@ const navItem = [
     id: 2,
     text: "BLOG",
     icon: icons.blog,
-    link: "/blog",
+    link: "/",
   },
   {
     id: 3,

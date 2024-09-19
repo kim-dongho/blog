@@ -37,12 +37,11 @@ const MobileNavigation = () => {
 
 const slideWrapper = (isOpen: boolean) => css`
   width: 100%;
-  position: absolute;
-  right: 0;
+  position: fixed;
+  right: ${isOpen ? "0" : "-800px"};
   top: 0;
   bottom: 0;
-  transform: ${isOpen ? "translateX(0)" : "translateX(100%)"};
-  transition: transform 0.5s ease-in-out;
+  transition: right 0.5s ease-in-out;
   background-color: white;
   color: black;
   z-index: 10;
