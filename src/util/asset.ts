@@ -13,6 +13,10 @@ const iconNames = [
   "github-dark",
   "filter-light",
   "filter-dark",
+  "arrow-left-dark",
+  "arrow-left-light",
+  "arrow-right-dark",
+  "arrow-right-light",
 ];
 
 const icons = iconNames.reduce((acc, name) => {
@@ -22,7 +26,5 @@ const icons = iconNames.reduce((acc, name) => {
   acc[formattedName] = `${defaultIconURL}/icon-${name}.svg`;
   return acc;
 }, {} as Record<string, string>);
-
-export const images = {}; // 유지되지만 빈 객체일 경우 삭제 가능
 
 export { icons };

@@ -4,14 +4,16 @@ import { mediaQuery } from "../style/media";
 import { textEllipsis } from "../style/common";
 import TagList from "./TagList";
 import { useNavigate } from "react-router-dom";
+import ImageWithFallback from "./ImageWithFallback";
 
 const BlogListItem = (props: ListProps) => {
   const { title, thumbnail, summary, tags, date } = props;
   const navigation = useNavigate();
+
   return (
     <div css={itemContainer}>
       <div css={thumbnailWrapper}>
-        <img src={thumbnail} alt="image" css={thumbnailImage} />
+        <ImageWithFallback src={thumbnail} alt="image" css={thumbnailImage} />
       </div>
       <div css={contentWrapper} onClick={() => navigation(`/blog/${title}`)}>
         <h2>{title}</h2>

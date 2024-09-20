@@ -3,13 +3,14 @@ import { themeState } from "../atom";
 import { css } from "@emotion/react";
 import Navigation from "./Navigation";
 import { icons } from "../util/asset";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isDark, setIsDark] = useRecoilState(themeState);
-
+  const navigation = useNavigate();
   return (
     <div css={headerContainer}>
-      <div css={headerLeft}>
+      <div css={headerLeft} onClick={() => navigation("/")}>
         <img src={icons.leaf} />
         <h2>DH's Blog</h2>
       </div>

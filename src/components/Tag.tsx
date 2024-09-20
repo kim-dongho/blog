@@ -1,33 +1,50 @@
 import styled from "@emotion/styled";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { filterList } from "../atom";
 import { useLocation, useNavigate } from "react-router-dom";
 
 interface TagProps {
   name: string;
   filterEvent: boolean;
+  filtering?: boolean;
 }
 
 interface StyledTagProps {
   filterEvent: boolean;
+  filtering?: boolean;
+  isFiltered: boolean;
 }
 
-const Tag = ({ name, filterEvent }: TagProps) => {
-  const setFilter = useSetRecoilState(filterList);
+const Tag = ({ name, filterEvent, filtering }: TagProps) => {
+  const [filter, setFilter] = useRecoilState(filterList);
   const location = useLocation();
   const navigation = useNavigate();
 
   const handleFilter = (name: string) => {
     if (filterEvent) {
-      setFilter((prev) => [...prev, name]);
+      setFilter((prev) => {
+        if (prev.includes(name)) {
+          return prev.filter((item) => item !== name);
+        } else {
+          return [...prev, name];
+        }
+      });
+
       if (location.pathname === "/tags") {
         navigation("/");
       }
     }
   };
 
+  const isFiltered = filter.includes(name);
+
   return (
-    <StyledTag filterEvent={filterEvent} onClick={() => handleFilter(name)}>
+    <StyledTag
+      isFiltered={isFiltered}
+      filtering={filtering}
+      filterEvent={filterEvent}
+      onClick={() => handleFilter(name)}
+    >
       {name}
     </StyledTag>
   );
@@ -40,7 +57,8 @@ const StyledTag = styled.div<StyledTagProps>`
   font-size: 14px;
   display: inline-block;
   color: black;
-  background-color: #ebebeb;
+  background-color: ${(props) =>
+    props.isFiltered && props.filtering ? "#d4edda" : "#ebebeb"};
   cursor: ${(props) => (props.filterEvent ? "pointer" : "default")};
 `;
 
