@@ -13,6 +13,7 @@ export default defineConfig({
     react(),
     mdx({
       remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
+      providerImportSource: "@mdx-js/react",
     }),
     VitePluginRadar({
       analytics: {

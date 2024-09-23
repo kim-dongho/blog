@@ -6,6 +6,7 @@ import { css } from "@emotion/react";
 import ContentLayout from "../layouts/ContentLayout";
 import Title from "../components/Title";
 import Comment from "../components/Comment";
+import CodeBlock from "../components/CodeBlock";
 
 const BlogPost = () => {
   const { id } = useParams();
@@ -25,13 +26,31 @@ const BlogPost = () => {
     }
   }, [id]);
 
+  const components = {
+    code({ node, inline, className, children, ...props }: any) {
+      const match = /language-(\w+)/.exec(className || "");
+      console.log(className);
+      return !inline && match ? (
+        <CodeBlock
+          value={String(children).replace(/\n$/, "")}
+          language={match[1]}
+          {...props}
+        />
+      ) : (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      );
+    },
+  };
+
   if (!MDXContent) return <div>Loading...</div>;
 
   return (
     <ContentLayout>
       <Title text={title} />
       <div css={mdxContainer} className="markdown-body">
-        <MDXProvider>
+        <MDXProvider components={components}>
           <MDXContent />
         </MDXProvider>
         <Comment />
@@ -43,6 +62,13 @@ const BlogPost = () => {
 const mdxContainer = css`
   background: inherit;
   color: inherit;
+
+  ol {
+    list-style-type: number;
+  }
+  ul {
+    list-style-type: disc;
+  }
 `;
 
 export default BlogPost;

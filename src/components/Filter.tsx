@@ -14,11 +14,12 @@ const Filter = () => {
   // const isDark = useRecoilValue(themeState);
   const allTag = useAllTag();
 
+  console.log(allTag.length);
   const settings = {
     variableWidth: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 6,
+    slidesToShow: allTag.length > 6 ? 6 : allTag.length,
     slidesToScroll: 1,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,

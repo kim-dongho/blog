@@ -1,0 +1,226 @@
+---
+title: "[프로그래머스] Lv1. 신고 결과 받기 (JS)"
+date: "2024-09-20"
+tags: ["JavaScript", "Algorithm", "Programmers"]
+draft: false
+summary: "신입사원 무지는 게시판 불량 이용자를 신고하고 처리 결과를 메일로 발송하는 시스템을 개발하려 합니다. 무지가 개발하려는 시스템은 다음과 같습니다."
+---
+
+#
+
+### 문제 설명
+
+신입사원 무지는 게시판 불량 이용자를 신고하고 처리 결과를 메일로 발송하는 시스템을 개발하려고 합니다. 무지가 개발하려는 시스템은 다음과 같습니다.
+
+### 제한 사항
+
+- 각 유저는 한 번에 한 명의 유저를 신고할 수 있습니다.
+  - 신고 횟수에 제한은 없습니다. 서로 다른 유저를 계속해서 신고할 수 있습니다.
+  - 한 유저를 여러 번 신고할 수도 있지만, 동일한 유저에 대한 신고 횟수는 1회로 처리됩니다.
+- `k`번 이상 신고된 유저는 게시판 이용이 정지되며, 해당 유저를 신고한 모든 유저에게 정지 사실을 메일로 발송합니다.
+  - 유저가 신고한 모든 내역을 취합하여 마지막에 한꺼번에 게시판 이용 정지를 시키면서 정지 메일을 발송합니다.
+
+### 입출력 예
+
+다음은 전체 유저 목록이 `["muzi", "frodo", "apeach", "neo"]`이고, `k = 2`(즉, 2번 이상 신고당하면 이용 정지)인 경우의 예시입니다.
+
+<table>
+  <thead>
+    <tr>
+      <th>유저 ID</th>
+      <th>유저가 신고한 ID</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>"muzi"</td>
+      <td>"frodo"</td>
+      <td>"muzi"가 "frodo"를 신고했습니다.</td>
+    </tr>
+    <tr>
+      <td>"apeach"</td>
+      <td>"frodo"</td>
+      <td>"apeach"가 "frodo"를 신고했습니다.</td>
+    </tr>
+    <tr>
+      <td>"frodo"</td>
+      <td>"neo"</td>
+      <td>"frodo"가 "neo"를 신고했습니다.</td>
+    </tr>
+    <tr>
+      <td>"muzi"</td>
+      <td>"neo"</td>
+      <td>"muzi"가 "neo"를 신고했습니다.</td>
+    </tr>
+    <tr>
+      <td>"apeach"</td>
+      <td>"muzi"</td>
+      <td>"apeach"가 "muzi"를 신고했습니다.</td>
+    </tr>
+  </tbody>
+</table>
+
+각 유저별로 신고당한 횟수는 다음과 같습니다.
+
+<table>
+  <thead>
+    <tr>
+      <th>유저 ID</th>
+      <th>신고당한 횟수</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>"muzi"</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>"frodo"</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>"apeach"</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>"neo"</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+
+위 예시에서는 2번 이상 신고당한 `"frodo"`와 `"neo"`의 게시판 이용이 정지됩니다. 이때, 각 유저별로 신고한 아이디와 정지된 아이디를 정리하면 다음과 같습니다.
+
+<table>
+  <thead>
+    <tr>
+      <th>유저 ID</th>
+      <th>유저가 신고한 ID</th>
+      <th>정지된 ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>"muzi"</td>
+      <td>["frodo", "neo"]</td>
+      <td>["frodo", "neo"]</td>
+    </tr>
+    <tr>
+      <td>"frodo"</td>
+      <td>["neo"]</td>
+      <td>["neo"]</td>
+    </tr>
+    <tr>
+      <td>"apeach"</td>
+      <td>["muzi", "frodo"]</td>
+      <td>["frodo"]</td>
+    </tr>
+    <tr>
+      <td>"neo"</td>
+      <td>없음</td>
+      <td>없음</td>
+    </tr>
+  </tbody>
+</table>
+
+따라서 `"muzi"`는 처리 결과 메일을 2회, `"frodo"`와 `"apeach"`는 각각 처리 결과 메일을 1회 받게 됩니다.
+
+이용자 ID가 담긴 문자열 배열 `id_list`, 각 이용자가 신고한 이용자의 ID 정보가 담긴 문자열 배열 `report`, 정지 기준이 되는 신고 횟수 `k`가 매개변수로 주어질 때, 각 유저별로 처리 결과 메일을 받은 횟수를 배열에 담아 `return` 하도록 `solution` 함수를 완성해주세요.
+
+### 생각한 방법
+
+1. 신고 한 사람을 기준으로 신고 횟수를 저장하고, 중복값은 제외 한다.
+2. 중복값을 제외 할 때 신고 당한 사람의 횟수도 저장한다.
+3. 신고 한 사람의 데이터를 이용하여 조회 한 후, 그 데이터에 `k`번 이상 신고를 받은 사람이 있는지 체크한다.
+
+### 코드 설명
+
+```jsx
+let answer = new Array(id_list.length).fill(0);
+let check = new Array(id_list.length).fill(0);
+
+// 신고한 사람과 신고 받은 사람을 저장하는 맵을 생성
+const map = new Map();
+const checkMap = new Map();
+
+for (const [index, id] of id_list.entries()) {
+  map.set(id, []);
+  checkMap.set(id, index); // 사용자 ID와 인덱스를 연결
+}
+```
+
+map = 신고 한 사람을 기준으로 신고 횟수를 저장
+
+checkMap = 신고 받은 사람을 저장
+
+id_list를 기준으로 반복문을 돌려 id_list의 Item들을 기준에 맞게 세팅
+
+```jsx
+for (const rp of report) {
+  const [first, second] = rp.split(" ");
+
+  if (!map.get(first).includes(second)) {
+    map.get(first).push(second); // 신고 목록에 추가
+    check[checkMap.get(second)] += 1; // 신고당한 사람 카운트
+  }
+}
+```
+
+report의 Item을 띄어쓰기 기준으로 잘라 first와 second에 저장하고
+
+이미 신고 목록에 들어가 있는 아이디 일 경우 저장하지 않는 조건 설정
+
+```jsx
+map.forEach((item, index) => {
+  item.forEach((c_item) => {
+    if (check[checkMap.get(c_item)] >= k) {
+      answer[index] += 1; // 신고가 k번 이상일 경우
+    }
+  });
+});
+```
+
+신고 한 사람의 데이터를 기준으로 조회
+
+그 안의 아이템 (신고당한사람) 중 신고 당한 횟수가 `k`번 이상일 경우 answer에 저장
+
+### 전체 코드
+
+```jsx
+function solution(id_list, report, k) {
+  // 결과와 체크 배열을 초기화
+  let answer = new Array(id_list.length).fill(0);
+  let check = new Array(id_list.length).fill(0);
+  // 신고한 사람과 신고 받은 사람을 저장하는 맵을 생성
+  const map = new Map();
+  const checkMap = new Map();
+
+  // 각 사용자 ID에 대해 맵을 설정 (신고한 사람 목록 초기화)
+  for (const [index, id] of id_list.entries()) {
+    map.set(id, []);
+    checkMap.set(id, index); // 사용자 ID와 인덱스를 연결
+  }
+
+  // 신고 내역을 순회하며 중복 신고를 방지하고 신고 횟수를 기록
+  for (const rp of report) {
+    const [first, second] = rp.split(" ");
+
+    if (!map.get(first).includes(second)) {
+      map.get(first).push(second); // 신고 목록에 추가
+      check[checkMap.get(second)] += 1; // 신고당한 사람 카운트
+    }
+  }
+
+  // 각 사용자가 신고한 사람이 k번 이상 신고당했는지 확인하고 결과 업데이트
+  map.forEach((item, index) => {
+    item.forEach((c_item) => {
+      if (check[checkMap.get(c_item)] >= k) {
+        answer[index] += 1; // 신고가 k번 이상일 경우
+      }
+    });
+  });
+
+  return answer;
+}
+```

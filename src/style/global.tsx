@@ -65,6 +65,10 @@ const style = (theme: Theme) => css`
     width: 24px;
     height: 24px;
   }
+
+  table {
+    color: white;
+  }
 `;
 
 export const GlobalStyle = () => {
