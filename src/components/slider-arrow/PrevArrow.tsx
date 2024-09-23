@@ -4,13 +4,13 @@ import { themeState } from "../../atom";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PrevArrow = (props: any) => {
-  const { onClick, className, style } = props;
+  const { onClick, className, style, currentSlide } = props;
   const isDark = useRecoilValue(themeState);
 
   return (
     <img
       src={isDark ? icons["arrow-leftLight"] : icons["arrow-leftDark"]}
-      onClick={onClick}
+      onClick={currentSlide !== 0 && onClick}
       className={className}
       style={style}
     />

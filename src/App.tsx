@@ -20,7 +20,6 @@ function App() {
         <BrowserRouter>
           <Header />
           <Routes>
-            {/* <Route path="/" element={<Home />} /> */}
             <Route path="/tags" element={<Tags />} />
             <Route path="/" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />

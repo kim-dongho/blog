@@ -29,7 +29,6 @@ const BlogPost = () => {
   const components = {
     code({ node, inline, className, children, ...props }: any) {
       const match = /language-(\w+)/.exec(className || "");
-      console.log(className);
       return !inline && match ? (
         <CodeBlock
           value={String(children).replace(/\n$/, "")}
@@ -68,6 +67,10 @@ const mdxContainer = css`
   }
   ul {
     list-style-type: disc;
+  }
+
+  table {
+    font-size: 14px;
   }
 `;
 

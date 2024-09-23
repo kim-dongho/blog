@@ -8,7 +8,6 @@ interface TProps {
 }
 
 const CodeBlock: FC<TProps> = ({ language, value }) => {
-  console.log(1111111);
   return (
     <SyntaxHighlighter language={language} style={PrismLight}>
       {value}

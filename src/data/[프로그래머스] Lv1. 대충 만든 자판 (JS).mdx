@@ -6,3 +6,218 @@ tags: ["JavaScript", "Algorithm", "Programmers"]
 draft: false
 summary: "휴대폰의 자판은 컴퓨터 키보드 자판과는 다르게 하나의 키에 여러 개의 문자가 할당될 수 있습니다. 키 하나에 여러 문자가 할당된 경우, 동일한 키를 연속해서 빠르게 누르면 할당된 순서대로 문자가 바뀝니다."
 ---
+
+###
+
+## 문제 설명
+
+휴대폰의 자판은 컴퓨터 키보드 자판과는 다르게 하나의 키에 여러 개의 문자가 할당될 수 있습니다. 키 하나에 여러 문자가 할당된 경우, 동일한 키를 연속해서 빠르게 누르면 할당된 순서대로 문자가 바뀝니다.
+
+예를 들어, 1번 키에 "A", "B", "C" 순서대로 문자가 할당되어 있다면 1번 키를 한 번 누르면 "A", 두 번 누르면 "B", 세 번 누르면 "C"가 되는 식입니다.
+
+같은 규칙을 적용해 아무렇게나 만든 휴대폰 자판이 있습니다. 이 휴대폰 자판은 키의 개수가 1개부터 최대 100개까지 있을 수 있으며, 특정 키를 눌렀을 때 입력되는 문자들도 무작위로 배열되어 있습니다. 또, 같은 문자가 자판 전체에 여러 번 할당된 경우도 있고, 키 하나에 같은 문자가 여러 번 할당된 경우도 있습니다. 심지어 아예 할당되지 않은 경우도 있습니다. 따라서 몇몇 문자열은 작성할 수 없을 수도 있습니다.
+
+이 휴대폰 자판을 이용해 특정 문자열을 작성할 때, 키를 최소 몇 번 눌러야 그 문자열을 작성할 수 있는지 알아보고자 합니다.
+
+1번 키부터 차례대로 할당된 문자들이 순서대로 담긴 문자열배열 keymap과 입력하려는 문자열들이 담긴 문자열 배열 targets가 주어질 때, 각 문자열을 작성하기 위해 키를 최소 몇 번씩 눌러야 하는지 순서대로 배열에 담아 return 하는 solution 함수를 완성해 주세요.
+
+단, 목표 문자열을 작성할 수 없을 때는 -1을 저장합니다.
+
+<br />
+
+## 제한 사항
+
+- 1 ≤ keymap의 길이 ≤ 100
+
+  - 1 ≤ keymap의 원소의 길이 ≤ 100
+  - keymap[i]는 i + 1번 키를 눌렀을 때 순서대로 바뀌는 문자를 의미합니다.
+
+    - 예를 들어 keymap[0] = "ABACD" 인 경우 1번 키를 한 번 누르면 A, 두 번 누르면 B, 세 번 누르면 A 가 됩니다.
+
+  - keymap의 원소의 길이는 서로 다를 수 있습니다.
+  - keymap의 원소는 알파벳 대문자로만 이루어져 있습니다.
+
+- 1 ≤ targets의 길이 ≤ 100
+
+  - 1 ≤ targets의 원소의 길이 ≤ 100
+  - targets의 원소는 알파벳 대문자로만 이루어져 있습니다.
+
+<br />
+
+## 입출력 예
+
+<table>
+  <thead>
+    <tr>
+      <th>keymap</th>
+      <th>targets</th>
+      <th>result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>["ABACD", "BCEFD"]</td>
+      <td>["ABCD","AABB"]</td>
+      <td>[9, 4]</td>
+    </tr>
+    <tr>
+      <td>["AA"]</td>
+      <td>["B"]</td>
+      <td>[-1]</td>
+    </tr>
+    <tr>
+      <td>["AGZ", "BSSS"]</td>
+      <td>["ASA","BGZ"]</td>
+      <td>[4, 6]</td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+## 생각한 방법
+
+1. keymap의 배열 원소들 중 중복된 알파벳이 있으면 제일 빠른 index값을 저장
+2. 제일 빠른 index값을 저장하기 위해 map을 활용 (중복 제거)
+3. map에 저장된 데이터를 이용해 targets의 값 계산
+
+<br />
+
+## 코드 설명
+
+### #1
+
+```jsx
+const map = new Map();
+
+for (const key of keymap) {
+  key.split("").map((item, index) => {
+    if (map.get(item) >= 0) {
+      if (index < map.get(item)) {
+        map.set(item, index);
+      }
+    } else {
+      map.set(item, index);
+    }
+  });
+}
+```
+
+keymap의 요소의 알파벳들을 전부 순회하여
+
+map에 없을 경우: 삽입
+
+map에 있을 경우: 비교하여 index가 빠르면 삽입
+
+### #2
+
+```jsx
+for (const target of targets) {
+  let count = 0;
+
+  for (const item of target.split("")) {
+    if (map.get(item) >= 0) {
+      count += map.get(item) + 1;
+    }
+  }
+
+  if (count === 0) answer.push(-1);
+  else answer.push(count);
+}
+```
+
+targets 요소의 알파벳들을 전부 순회하여 map에 있는 요소일 경우
+
+해당 index값을 count에 더해 answer에 저장
+
+count = 0 일 경우는 target에 없는 알파벳이라고 판단하여 answer에 -1을 저장
+
+### #2 문제점
+
+<table>
+  <thead>
+    <tr>
+      <th>keymap</th>
+      <th>targets</th>
+      <th>result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>["ABC"]</td>
+      <td>["AD"]</td>
+      <td>[-1]</td>
+    </tr>
+    <tr>
+      <td>["ABC"]</td>
+      <td>["DA"]</td>
+      <td>[-1]</td>
+    </tr>
+  </tbody>
+</table>
+
+해당 테스트 케이스 실행 결과 A는 존재하지만 D는 keymap에 없는 알파벳이라 -1을 출력해야 하지만
+
+target을 전부 순회하므로 A의 인덱스 값이 들어가는 문제 발생
+
+### #2 해결법
+
+```jsx
+for (const target of targets) {
+  let count = 0;
+  let flag = false;
+  for (const item of target.split("")) {
+    if (map.get(item) >= 0) {
+      count += map.get(item) + 1;
+    } else {
+      flag = true;
+    }
+  }
+
+  if (flag) answer.push(-1);
+  else answer.push(count);
+}
+```
+
+map에 없는 경우에는 keymap에 없는 데이터이기 때문에
+
+flag를 이용해 target의 알파벳이 keymap에 존재하는지 확인하였음.
+
+<br />
+
+## 전체 코드
+
+```jsx
+function solution(keymap, targets) {
+  var answer = [];
+  const map = new Map();
+
+  for (const key of keymap) {
+    key.split("").map((item, index) => {
+      if (map.get(item) >= 0) {
+        if (index < map.get(item)) {
+          map.set(item, index);
+        }
+      } else {
+        map.set(item, index);
+      }
+    });
+  }
+
+  for (const target of targets) {
+    let count = 0;
+    let flag = false;
+    for (const item of target.split("")) {
+      if (map.get(item) >= 0) {
+        count += map.get(item) + 1;
+      } else {
+        flag = true;
+      }
+    }
+
+    if (flag) answer.push(-1);
+    else answer.push(count);
+  }
+  return answer;
+}
+```

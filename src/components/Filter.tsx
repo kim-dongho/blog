@@ -1,6 +1,3 @@
-// import { useRecoilValue } from "recoil";
-// import { themeState } from "../atom";
-// import { icons } from "../util/asset";
 import { css } from "@emotion/react";
 import { useAllTag } from "../hooks/useAllTag";
 import Tag from "./Tag";
@@ -11,15 +8,13 @@ import PrevArrow from "./slider-arrow/PrevArrow";
 import NextArrow from "./slider-arrow/NextArrow";
 
 const Filter = () => {
-  // const isDark = useRecoilValue(themeState);
   const allTag = useAllTag();
 
-  console.log(allTag.length);
   const settings = {
     variableWidth: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: allTag.length > 6 ? 6 : allTag.length,
+    slidesToShow: 1,
     slidesToScroll: 1,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
@@ -49,6 +44,9 @@ const filterContainer = css`
   position: relative;
   width: 95%;
   margin: 0 auto;
+  .slick-list {
+    margin: 0 auto;
+  }
 `;
 
 export default Filter;
