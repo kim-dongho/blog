@@ -4,7 +4,6 @@ import { themeState } from "../../atom";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const NextArrow = (props: any) => {
-  console.log(props);
   const { onClick, className, style, slideCount, currentSlide } = props;
   const isDark = useRecoilValue(themeState);
 
