@@ -2,14 +2,17 @@ import { useEffect, useRef } from "react";
 
 const Comment = () => {
   const commentsEl = useRef<HTMLDivElement>(null);
-  const encodedPathname = encodeURIComponent(window.location.pathname);
+  const slug = window.location.pathname
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .toLowerCase();
 
   useEffect(() => {
     const scriptEl = document.createElement("script");
     scriptEl.async = true;
     scriptEl.src = "https://utteranc.es/client.js";
     scriptEl.setAttribute("repo", "kim-dongho/blog");
-    scriptEl.setAttribute("issue-term", encodedPathname);
+    scriptEl.setAttribute("issue-term", slug);
     scriptEl.setAttribute("theme", "github-light");
     scriptEl.setAttribute("crossorigin", "anonymous");
     commentsEl.current?.appendChild(scriptEl);
