@@ -13,14 +13,12 @@ const BlogPost = () => {
   const [MDXContent, setMDXContent] = useState<React.ComponentType | null>(
     null
   );
-  const [title, setTitle] = useState("");
   const [koTitle, setKoTitle] = useState("");
 
   useEffect(() => {
     if (id) {
       import(`../data/${id}.mdx`)
         .then((module) => {
-          setTitle(module.frontmatter.title);
           setKoTitle(module.frontmatter.koTitle);
           setMDXContent(() => module.default);
         })
@@ -54,7 +52,7 @@ const BlogPost = () => {
         <MDXProvider components={components}>
           <MDXContent />
         </MDXProvider>
-        <Comment title={title} />
+        <Comment />
       </div>
     </ContentLayout>
   );

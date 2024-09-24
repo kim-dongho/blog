@@ -1,9 +1,5 @@
 import { useEffect, useRef } from "react";
 
-type Props = {
-  title: string;
-};
-
 const Comment = () => {
   const commentsEl = useRef<HTMLDivElement>(null);
 
@@ -15,7 +11,6 @@ const Comment = () => {
     scriptEl.setAttribute("issue-term", "pathname");
     scriptEl.setAttribute("theme", "github-light");
     scriptEl.setAttribute("crossorigin", "anonymous");
-    console.log(scriptEl);
     commentsEl.current?.appendChild(scriptEl);
   }, []);
 
