@@ -6,7 +6,7 @@ type Props = {
 
 const Comment = ({ title }: Props) => {
   const commentsEl = useRef<HTMLDivElement>(null);
-
+  console.log(title);
   useEffect(() => {
     const scriptEl = document.createElement("script");
     scriptEl.async = true;

@@ -14,12 +14,14 @@ const BlogPost = () => {
     null
   );
   const [title, setTitle] = useState("");
+  const [koTitle, setKoTitle] = useState("");
 
   useEffect(() => {
     if (id) {
       import(`../data/${id}.mdx`)
         .then((module) => {
-          setTitle(module.frontmatter.koTitle);
+          setTitle(module.frontmatter.title);
+          setKoTitle(module.frontmatter.koTitle);
           setMDXContent(() => module.default);
         })
         .catch((error) => console.error("Error loading MDX file:", error));
@@ -47,7 +49,7 @@ const BlogPost = () => {
 
   return (
     <ContentLayout>
-      <Title text={title} />
+      <Title text={koTitle} />
       <div css={mdxContainer} className="markdown-body">
         <MDXProvider components={components}>
           <MDXContent />
