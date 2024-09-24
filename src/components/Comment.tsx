@@ -4,17 +4,18 @@ type Props = {
   title: string;
 };
 
-const Comment = ({ title }: Props) => {
+const Comment = () => {
   const commentsEl = useRef<HTMLDivElement>(null);
-  console.log(title);
+
   useEffect(() => {
     const scriptEl = document.createElement("script");
     scriptEl.async = true;
     scriptEl.src = "https://utteranc.es/client.js";
     scriptEl.setAttribute("repo", "kim-dongho/blog");
-    scriptEl.setAttribute("issue-term", title);
+    scriptEl.setAttribute("issue-term", "pathname");
     scriptEl.setAttribute("theme", "github-light");
     scriptEl.setAttribute("crossorigin", "anonymous");
+    console.log(scriptEl);
     commentsEl.current?.appendChild(scriptEl);
   }, []);
 
