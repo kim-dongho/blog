@@ -19,7 +19,7 @@ const BlogPost = () => {
     if (id) {
       import(`../data/${id}.mdx`)
         .then((module) => {
-          setTitle(module.frontmatter.title);
+          setTitle(module.frontmatter.koTitle);
           setMDXContent(() => module.default);
         })
         .catch((error) => console.error("Error loading MDX file:", error));
@@ -52,7 +52,7 @@ const BlogPost = () => {
         <MDXProvider components={components}>
           <MDXContent />
         </MDXProvider>
-        <Comment />
+        <Comment title={title} />
       </div>
     </ContentLayout>
   );

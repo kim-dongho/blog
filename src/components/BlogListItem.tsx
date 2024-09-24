@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import ImageWithFallback from "./ImageWithFallback";
 
 const BlogListItem = (props: ListProps) => {
-  const { title, thumbnail, summary, tags, date } = props;
+  const { title, koTitle, thumbnail, summary, tags, date } = props;
   const navigation = useNavigate();
 
   return (
@@ -15,8 +15,8 @@ const BlogListItem = (props: ListProps) => {
       <div css={thumbnailWrapper}>
         <ImageWithFallback src={thumbnail} alt="image" css={thumbnailImage} />
       </div>
-      <div css={contentWrapper} onClick={() => navigation(`/blog/${title}`)}>
-        <h2>{title}</h2>
+      <div css={contentWrapper} onClick={() => navigation(`/blog/${koTitle}`)}>
+        <h2>{koTitle}</h2>
         <TagList tags={tags} filterEvent={false} />
         <h5>{summary}</h5>
         <p className="date">{date}</p>

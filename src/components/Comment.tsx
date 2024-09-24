@@ -1,6 +1,11 @@
 import { useEffect, useRef } from "react";
+import slugify from "slugify";
 
-const Comment = () => {
+type Props = {
+  title: string;
+};
+
+const Comment = ({ title }: Props) => {
   const commentsEl = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

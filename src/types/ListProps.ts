@@ -10,4 +10,5 @@ export interface ListProps {
   tags: string[];
   thumbnail: string;
   title: string;
+  koTitle: string;
 }
