@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <div css={headerContainer}>
       <div css={headerLeft} onClick={() => navigation("/")}>
-        <img src={icons.leaf} />
+        <img src={icons.leaf} alt="logo" />
         <h2>DH's Blog</h2>
       </div>
       <div css={headerRight}>
