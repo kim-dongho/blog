@@ -1,0 +1,193 @@
+---
+title: "typescript-utility-type"
+koTitle: "[TS] 타입스크립트 유틸리티 타입(Utility Types)"
+id: 4,
+thumbnail: "/assets/icons/icon-programmers-dark.png"
+date: "2024-10-05"
+tags: ["TypeScript"]
+draft: false
+summary: "TypeScript는 타입 변환을 쉽게 하기 위해서 전역으로 사용 가능한 유틸리티 타입을 제공한다."
+---
+
+###
+
+TypeScript는 타입 변환을 쉽게 하기 위해서 전역으로 사용 가능한 유틸리티 타입을 제공한다
+
+## Partial&lt;Type&gt;
+
+인터페이스에 있는 모든 속성을 자동으로 선택적으로 만든다.
+
+즉, 인터페이스에 새로운 속성을 추가하거나 변경할 때 별도로 수정을 하지 않아도 된다.
+
+옵서녈 체이닝 (Optional Chaining)을 쓰는것 보다 유지보수에 용이하다.
+
+```tsx
+interface Todo {
+  title: string;
+  description: string;
+}
+
+const todo: Partial<Todo> = {};
+```
+
+위 코드는 아래 코드와 같은 역할을 한다.
+
+```tsx
+interface Todo {
+  title?: string;
+  description?: string;
+}
+
+const todo: Todo = {};
+```
+
+## Required&lt;Type&gt;
+
+Type 집합의 모든 프로퍼티를 필수로 설정한 타입을 생성한다. `Partial`의 반대 역할을 한다.
+
+```tsx
+interface Todo {
+  title: string;
+  description: string;
+}
+
+const obj1: Required<Todo> = {
+  title: "Title",
+  description: "Description",
+}; // ok
+
+const obj2: Required<Todo> = {
+  title: "Title",
+}; // Property 'b' is missing in type '{ a: number; }' but required in type 'Required<Todo>'.
+```
+
+## Readonly&lt;Type&gt;
+
+Type 집합의 모든 프로퍼티를 읽기 전용`(readonly)`으로 설정한 타입을 생성한다.
+
+즉 생성된 타입의 프로퍼티는 재할당될 수 없다.
+
+```tsx
+interface Todo {
+  title: string;
+}
+
+const todo: Readonly<Todo> = {
+  title: "Title",
+};
+
+todo.title = "Hello";
+// Cannot assign to 'title' because it is a read-only property.
+```
+
+## Record&lt;Keys,Type&gt;
+
+Type의 프로퍼티 Key의 집합으로 타입을 생성한다.
+
+이 유틸리티는 타입의 프로퍼티를 다른 타입에 매핑 시키는데 사용될 수 있다.
+
+```tsx
+interface PageInfo {
+  title: string;
+}
+
+type Page = "home" | "about" | "contact";
+
+const nav: Record<Page, PageInfo> = {
+  about: { title: "about" },
+  contact: { title: "contact" },
+  home: { title: "home" },
+};
+```
+
+## Pick&lt;Keys,Type&gt;
+
+Type에서 프로퍼티 `Keys`의 집합을 선택해 타입을 생성합니다.
+
+```tsx
+interface Todo {
+  title: string;
+  description: string;
+  completed: boolean;
+}
+
+type TodoPreview = Pick<Todo, "title" | "completed">;
+/*
+  TodoPreview = {
+    title: string,
+    completed: boolean,
+  };
+*/
+
+const todo: TodoPreview = {
+  title: "Clean room",
+  completed: false,
+};
+```
+
+## Omit&lt;Keys,Type&gt;
+
+Type에서 모든 프로퍼티를 선택하고 `Key`를 제거한 타입을 생성합니다.
+
+```tsx
+interface Todo {
+  title: string;
+  description: string;
+  completed: boolean;
+}
+
+type TodoPreview = Omit<Todo, "description">;
+/*
+  TodoPreview = {
+    title: string,
+    completed: boolean,
+  };
+*/
+
+const todo: TodoPreview = {
+  title: "Clean room",
+  completed: false,
+};
+```
+
+## Exclude&lt;Type,ExcludedUnion&gt;
+
+ExcludedUnion에 할당할 수 있는 모든 유니온 멤버를 Type에서 제외하여 타입을 생성합니다.
+
+```tsx
+type T0 = Exclude<"a" | "b" | "c", "a">;
+// type T0 = "b" | "c";
+type T1 = Exclude<"a" | "b" | "c", "a" | "b">;
+// type T1 = "c";
+type T2 = Exclude<string | number | (() => void), Function>;
+// type T2 = string | number;
+```
+
+## 유틸리티 타입 중첩
+
+TypeScript의 유틸리티 타입들은 서로 결합하여 사용 가능하다.
+
+중첩 예시
+
+```tsx
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  address: string;
+}
+
+// Partial과 Pick을 중첩 사용
+type PartialUserName = Partial<Pick<User, "name">>;
+/* 
+  PartialUserName = {
+    name: string;
+  }
+*/
+```
+
+##
+
+출처: [타입스크립트 공식 문서]
+
+[타입스크립트 공식 문서]: (https://www.typescriptlang.org/ko/docs/handbook/utility-types.html)

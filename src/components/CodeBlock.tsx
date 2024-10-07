@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import PrismLight from "react-syntax-highlighter/dist/cjs/styles/prism/dracula";
+import PrismLight from "react-syntax-highlighter/dist/cjs/styles/prism/darcula";
 
 interface TProps {
   language: string;

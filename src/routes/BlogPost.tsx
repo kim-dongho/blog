@@ -72,6 +72,10 @@ const mdxContainer = css`
   table {
     font-size: 14px;
   }
+
+  pre {
+    font-size: 14px;
+  }
 `;
 
 export default BlogPost;
