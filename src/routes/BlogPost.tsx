@@ -7,6 +7,7 @@ import ContentLayout from "../layouts/ContentLayout";
 import Title from "../components/Title";
 import Comment from "../components/Comment";
 import CodeBlock from "../components/CodeBlock";
+import { mediaQuery } from "../style/media";
 
 const BlogPost = () => {
   const { id } = useParams();
@@ -75,6 +76,15 @@ const mdxContainer = css`
 
   pre {
     font-size: 14px;
+  }
+
+  img {
+    width: 400px;
+    height: 400px;
+    ${mediaQuery.mobile} {
+      width: 300px;
+      height: 300px;
+    }
   }
 `;
 

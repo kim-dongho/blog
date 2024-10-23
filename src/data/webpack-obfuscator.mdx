@@ -1,0 +1,99 @@
+---
+title: "webpack-obfuscator"
+koTitle: "[Webpack-Obfuscator] 자바스크립트 코드 난독화"
+id: 7,
+thumbnail: "/assets/image/obfuscate.png"
+date: "2024-10-21"
+tags: ["Next.js", "Webpack-obfuscator", "JavaScript"]
+draft: false
+summary: "webpack-obfuscator 패키지를 활용한 JavaScript 코드 난독화 방법 (Next.js 기반)"
+---
+
+###
+
+## 서론
+
+해당 포스트에서는 Next.js 프레임워크 기반 webpack-obfuscator 패키지를 활용한 자바스크립트 코드 난독화에 대해 정리하였다.
+
+## 프로젝트 세팅
+
+```jsx
+npm install --save-dev javascript-obfuscator webpack-obfuscator
+```
+
+[플러그인 링크]에서 이 플러그인은 Webpack@5 버전 이상을 요구한다.
+
+하지만 Next.js는 프로젝트 생성 시 자동으로 Webpack 설정을 해주기 때문에 따로 Webpack을 설치할 필요가 없다.
+
+## Webpack-obfuscator 사용법
+
+`next.config.js`
+
+```tsx
+const WebpackObfuscator = require("webpack-obfuscator");
+
+const nextConfig = {
+  ...nextConfig,
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.plugins.push(
+        new WebpackObfuscator(
+          {
+            ...options, // 필요한 옵션 추가
+          },
+          ["excluded_bundle_name.js"] // 난독화를 제외 시킬 파일 추가
+        )
+      );
+    }
+    return config;
+  },
+};
+
+module.exports = nextConfig;
+```
+
+Next.js에서 Webpack 설정 커스터마이징은 `next.config.js` 파일에서 할 수 있다.
+
+## 빌드 후 난독화 예시
+
+빌드 결과물인 `.next/static/chunks`에서 변수명과 함수명이 Hex로 바뀌었는지 확인하면 된다. (옵션에 따라 더 추가되어 있을 수 있음)
+
+```tsx
+function(_0x8b8b24, _0x1e3da1) {
+    var _0x4f450a = a44_0x247d
+      , _0x5a78fa = _0x8b8b24();
+    while (!![]) {
+        try {
+            var _0x17009f = -parseInt(_0x4f450a(0x602)) / 0x1 * (-parseInt(_0x4f450a(0x70b)) / 0x2) + -parseInt(_0x4f450a(0x5ab)) / 0x3 + -parseInt(_0x4f450a(0x6f8)) / 0x4 * (parseInt(_0x4f450a(0x3a3)) / 0x5) + -parseInt(_0x4f450a(0x46e)) / 0x6 + parseInt(_0x4f450a(0x1aa)) / 0x7 + parseInt(_0x4f450a(0x745)) / 0x8 * (-parseInt(_0x4f450a(0x6ef)) / 0x9) + parseInt(_0x4f450a(0x4cf)) / 0xa * (parseInt(_0x4f450a(0x76b)) / 0xb);
+            if (_0x17009f === _0x1e3da1)
+                break;
+            else
+                _0x5a78fa['push'](_0x5a78fa['shift']());
+        } catch (_0x2a825f) {
+            _0x5a78fa['push'](_0x5a78fa['shift']());
+        }
+    }
+}
+```
+
+## 예외
+
+Next.js는 SSR을 지원하는 프레임워크이다.
+
+그러므로 빌드파일의 Server에 있는 파일들은 Client에서 읽을 수 없으므로 난독화에서 제외시켜야 한다
+
+```tsx
+webpack: (config, { isServer }) => {
+  if (!isServer) {
+    ...option
+  }
+}
+```
+
+해당 코드에서 isServer 변수를 활용해 난독화에서 제외시킨다.
+
+또한 Third-party를 사용중인 경우 Client Side여도 난독화가 되어지지 않는다.
+
+(Side Effect가 발생할 수 있기 때문에 난독화를 권장하지 않음)
+
+[플러그인 링크]: (https://www.npmjs.com/package/webpack-obfuscator)

@@ -42,6 +42,7 @@ const thumbnailWrapper = css`
   width: 20%;
   width: 150px;
   height: 150px;
+  padding: 10px;
   border: 1.5px solid;
   background-color: white;
   ${mediaQuery.mobile} {
@@ -50,9 +51,9 @@ const thumbnailWrapper = css`
   }
 `;
 const thumbnailImage = css`
-  width: 100%; /* div의 너비에 맞게 이미지 크기 조절 */
-  height: auto; /* 비율을 유지하면서 자동으로 높이 조정 */
-  display: block; /* 이미지 아래의 여백 제거 */
+  width: 100%;
+  height: auto;
+  display: block;
 `;
 
 const contentWrapper = css`
@@ -73,6 +74,7 @@ const contentWrapper = css`
     font-size: 18px;
     line-height: 1.3;
     font-weight: 600;
+    min-height: 46px;
     ${textEllipsis(2)}
     ${mediaQuery.mobile} {
       ${textEllipsis(4)}

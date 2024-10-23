@@ -2,7 +2,7 @@
 title: "typescript-utility-type"
 koTitle: "[TS] 타입스크립트 유틸리티 타입(Utility Types)"
 id: 4,
-thumbnail: "/assets/icons/icon-programmers-dark.png"
+thumbnail: "/assets/images/ts-logo.svg"
 date: "2024-10-05"
 tags: ["TypeScript"]
 draft: false
@@ -102,7 +102,7 @@ const nav: Record<Page, PageInfo> = {
 
 ## Pick&lt;Keys,Type&gt;
 
-Type에서 프로퍼티 `Keys`의 집합을 선택해 타입을 생성합니다.
+Type에서 프로퍼티 `Keys`의 집합을 선택해 타입을 생성한다.
 
 ```tsx
 interface Todo {
@@ -127,7 +127,7 @@ const todo: TodoPreview = {
 
 ## Omit&lt;Keys,Type&gt;
 
-Type에서 모든 프로퍼티를 선택하고 `Key`를 제거한 타입을 생성합니다.
+Type에서 모든 프로퍼티를 선택하고 `Key`를 제거한 타입을 생성한다.
 
 ```tsx
 interface Todo {
@@ -152,7 +152,7 @@ const todo: TodoPreview = {
 
 ## Exclude&lt;Type,ExcludedUnion&gt;
 
-ExcludedUnion에 할당할 수 있는 모든 유니온 멤버를 Type에서 제외하여 타입을 생성합니다.
+ExcludedUnion에 할당할 수 있는 모든 유니온 멤버를 Type에서 제외하여 타입을 생성한다.
 
 ```tsx
 type T0 = Exclude<"a" | "b" | "c", "a">;
