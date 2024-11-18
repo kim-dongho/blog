@@ -11,7 +11,7 @@ This is a blog that organizes JavaScript and TypeScript theories and coding test
 [![Emotion](https://img.shields.io/badge/Emotion-C865B5?logo=emotion&logoColor=white)](https://emotion.sh/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 
-- BackEnd
+- DataBase
   
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white)](https://supabase.io/)
 
