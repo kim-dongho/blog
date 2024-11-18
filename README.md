@@ -1,8 +1,10 @@
 ## DH's Blog
 
-This is a blog that organizes JavaScript and TypeScript theories and coding test practice problems.
+This blog organizes JavaScript and TypeScript theories along with coding test practice problems. 
 
-## Skills
+It reads Mdx files stored in Supabase and displays them on the blog.
+
+## Tech Stack for This Blog
 
 - FrontEnd
   
