@@ -1,0 +1,120 @@
+---
+title: "aes256-encrypt-algorithm"
+koTitle: "[AES-256] AES-256 알고리즘을 활용한 암호화 (TS)"
+id: 8,
+thumbnail: ""
+date: "2024-11-19"
+tags: ["Encrypt Algorithm", "AES256", "TypeScript"]
+draft: false
+summary: "AES256 알고리즘을 활용한 Key Pair 암호화"
+---
+
+###
+
+`ethers` 라이브러리를 사용하여
+
+Keypair(Private Key, Public Key)를 생성하고 Private Key를 AES-256 알고리즘으로 암호화 한 후 복호화 하는 과정을 정리한 글이다.
+
+## AES 알고리즘이란?
+
+블록 암호를 사용하여 암호화 및 복호화를 진행하는 대표적인 대칭키 암호화 알고리즘.
+
+기존 DES(Data Encryption Standard, 데이터 암호화 표준) 암호화 강도가 약해지면서
+
+새롭게 개발된 차세대 표준 알고리즘.
+
+## AES-256 이란?
+
+AES 암호화의 종류 중 하나.
+
+뒤에 붙은 숫자는 256비트 길이 즉, 키의 길이를 뜻함
+
+종류로는 AES-128, AES-192, AES-256이 있음
+
+## Keypair Generate
+
+```tsx
+function generateKeyPair() {
+  const privateKeyBytes = randomBytes(32);
+  const privateKey = hexlify(privateKeyBytes);
+
+  const signingKey = new SigningKey(privateKey);
+  const publicKey = getPublicKey(signingKey.privateKey);
+
+  return {
+    privateKey: signingKey.privateKey,
+    publicKey: publicKey,
+  };
+}
+
+function getPublicKey(privateKey: string) {
+  const publicKey = new SigningKey(privateKey).publicKey; // 압축되지 않은 퍼블릭 키
+  return "0x" + keccak256(getBytes(publicKey)).slice(-40);
+}
+```
+
+Private Key: 32Byte 길이의 Random한 값을 만든 후 그 값을 Hex 값으로 변경한 값
+
+Public Key: `Private Key`를 이용하여 생성한 값, 해당 Public Key는 이더리움 지갑 주소 길이에 맞춰 변환
+
+## AES 암호화 코드
+
+```tsx
+// data = private key, key: 암호화에 사용할 값(ex. 비밀번호)
+function aes256Encrypt(data: string, key: string): string {
+  const dataWA = enc.Utf8.parse(data);
+  const keyWA = enc.Utf8.parse(key.padEnd(32, " ").substring(0, 32)); // 32바이트의 고정된 길이로 변환
+  const ivWA = enc.Utf8.parse(key.substring(0, 16));
+
+  const cipher = AES.encrypt(dataWA, keyWA, { iv: ivWA });
+
+  return cipher.ciphertext.toString(enc.Base64url); // url query 파라미터 대응하기 위해 일반 base64 가 아닌 base64url 로 변환
+}
+```
+
+`keyWA` 값 즉 key로 사용할 값이 32Byte의 길이여야 하기 때문에
+
+```ts
+key.length <= 32 ? key.padEnd(32, " ") : substring(0, 32);
+```
+
+를 해주었다.
+
+## AES 복호화 코드
+
+```tsx
+// data = encrypt key, key: 암호화에 사용한 값
+function aes256Decrypt(encData: string, key: string): string {
+  const keyWA = enc.Utf8.parse(key.padEnd(32, " ").substring(0, 32)); // 32바이트의 고정된 길이로 변환
+  const ivWA = enc.Utf8.parse(key.substring(0, 16));
+  const parsedEncData = enc.Base64url.parse(encData).toString(enc.Base64);
+  const cipher = AES.decrypt(parsedEncData, keyWA, { iv: ivWA });
+
+  return !cipher.toString(enc.Utf8) ? "false" : cipher.toString(enc.Utf8);
+}
+```
+
+암호화때와 동일하게 key.length를 조절한다.
+
+## 시행 착오
+
+예를들어 key 값으로 `1234`가 들어갔을 경우
+
+32Byte 길이 처리를 안해줬을 경우 keyWA의 length가 32Byte가 아니므로 Encrypt에도 문제가 생기겠지만
+
+Decrypt를 할 때 cipher의 `wordLength` 배열의 값 중 음수가 출력되기 때문에
+
+암복호화를 정상적으로 진행 (올바른 encData와 Key값을 넣었을 경우) 해도 오류가 생길 수 있다.
+
+- Error Code
+
+```tsx
+function aes256Decrypt(encData: string, key: string): string {
+  const keyWA = enc.Utf8.parse(key);
+  const ivWA = enc.Utf8.parse(key.substring(0, 16));
+  const parsedEncData = enc.Base64url.parse(encData).toString(enc.Base64);
+  const cipher = AES.decrypt(parsedEncData, keyWA, { iv: ivWA });
+
+  return !cipher.toString(enc.Utf8) ? "false" : cipher.toString(enc.Utf8);
+}
+```

@@ -14,20 +14,18 @@ function App() {
   const isDarkMode = useRecoilValue(themeState);
 
   return (
-    <>
-      <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-        <GlobalStyle />
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route path="/tags" element={<Tags />} />
-            <Route path="/" element={<Blog />} />
-            <Route path="/blog/:id" element={<BlogPost />} />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <GlobalStyle />
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/tags" element={<Tags />} />
+          <Route path="/" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
