@@ -20,6 +20,7 @@ It reads Mdx files stored in `./src/data` and displays them on the blog.
 ## Version
 
 Node: v20.16.0
+
 React: v18.3.1
 
 ## MDX Frontmatter
